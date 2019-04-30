@@ -1,0 +1,304 @@
+# installation tasks.
+#
+---
+- name: EPEL repository
+  yum: name=epel-release state=latest
+
+- name: Add docker yum repository
+  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: Add IUS repository
+  yum:
+    name:  https://centos7.iuscommunity.org/ius-release.rpm
+    state: present
+
+- name: install the 'Development tools' package group
+  yum:
+    name: "@Development tools"
+    state: present
+
+- name: Install dependencies
+  yum:
+    state: latest
+    name:
+      - elinks
+      - git
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - python35u
+      - python35u-libs
+      - python35u-devel
+      - python35u-pip
+      - docker-ce
+      - libsecret
+      - unzip
+      - mlocate
+      - python2-pip
+      - redhat-rpm-config
+      - gcc
+      - libffi-devel
+      - python-devel
+      - openssl-devel
+      - libxml2
+      - libxml2-devel
+      - libxslt
+      - libxslt-devel
+
+
+- set_fact:
+    install_dir: "/home/vagrant/Devel"
+
+- name: Create install dir
+  file:
+    path: "{{ install_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Create syslink python3.5 to python3
+  file:
+    src: "/usr/bin/python3.5"
+    dest: "/usr/bin/python3"
+    state: link
+
+- name: Upgrade pip for Python2
+  command: pip2 install --upgrade pip
+
+- name: Upgrade pip for Python3
+  command: pip3.5 install --upgrade pip
+
+- name: Install virtualenvwrapper for python2
+  command: pip2 install virtualenvwrapper
+
+- name: Copy b2share_devenvrc file
+  become_user: vagrant
+  copy:
+    src: b2share_devenvrc
+    dest: $HOME
+
+- name: Modify bashrc
+  become_user: vagrant
+  blockinfile:
+    dest: $HOME/.bashrc
+    block: |
+      export WORKON_HOME=$HOME/.virtualenvs
+      export PROJECT_HOME=$HOME/Devel
+      source /usr/bin/virtualenvwrapper.sh
+      source $HOME/b2share_devenvrc
+
+- name: Run 'mkvirtualenv b2share_dev-P3.5'
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    source `which virtualenvwrapper.sh` && mkvirtualenv b2share_dev-P3.5 --python=/usr/bin/python3.5
+
+- name: Install PIP libraries
+  pip:
+    name: docker-compose
+    state: latest
+
+- name: Clone b2share repo
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    git clone https://github.com/ekoi/b2share.git
+
+- name: Install requirements
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    source `which virtualenvwrapper.sh` && cd $HOME/b2share && workon b2share_dev-P3.5 && pip install -r requirements.txt && pip3 install -e . && cd $HOME/b2share/demo && pip3 install -e .
+
+- name: Install B2SHARE WebUI
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash && source ~/.bashrc && nvm install --lts && nvm use --lts
+  args:
+    warn: false
+
+- name: Install public license selector
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    cd $HOME/b2share && git clone https://github.com/EUDAT-B2SHARE/public-license-selector.git && cd public-license-selector && npm install
+
+- name: polyfill fix [fix installation of b2share on some centos versions]
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    cd $HOME/b2share/public-license-selector && mv webpack.config.js webpack.config.js.0 && echo "require('es6-promise').polyfill();" > webpack.config.js && cat webpack.config.js.0 >> webpack.config.js && npm install es6-promise
+
+- name: Build public-license-selector files and copy them to B2SHARE WebUI folder
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    cd $HOME/b2share/public-license-selector && npm run build && node_modules/webpack/bin/webpack.js -p && mkdir -p $HOME/b2share/webui/app/vendors && cp dist/license-selector.* $HOME/b2share/webui/app/vendors
+
+- name: Install B2SHARE Web-UI
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    cd $HOME/b2share/webui && npm install --unsafe-perm
+
+- name: Clone the dockerize repository
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    git clone https://github.com/EUDAT-B2SHARE/dockerize.git
+
+- name: Remove b2share and nginx sections in docker-compose.yml
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    sed -i '/b2share:/,/- postgres/d' $HOME/dockerize/docker-compose.yml &&  sed -i '/nginx:/,/- b2share/d' $HOME/dockerize/docker-compose.yml
+  args:
+    warn: false
+
+- name: Replace 'expose' to 'ports' in docker-compose.yml
+  become_user: vagrant
+  replace:
+    path: $HOME/dockerize/docker-compose.yml
+    regexp: 'expose'
+    replace: 'ports'
+    backup: no
+
+- name: Replace '5432' to '5432:5432' in docker-compose.yml
+  become_user: vagrant
+  replace:
+    path: $HOME/dockerize/docker-compose.yml
+    regexp: '"5432"$'
+    replace: '"5432:5432"'
+    backup: no
+
+- name: Replace '9200' to '9200:9200' in docker-compose.yml
+  become_user: vagrant
+  replace:
+    path: $HOME/dockerize/docker-compose.yml
+    regexp: '"9200"$'
+    replace: '"9200:9200"'
+    backup: no
+
+- name: Replace '9300' to '9300:9300' in docker-compose.yml
+  become_user: vagrant
+  replace:
+    path: $HOME/dockerize/docker-compose.yml
+    regexp: '"9300"$'
+    replace: '"9300:9300"'
+    backup: no
+
+- name: Replace '6379' to '6379:6379' in docker-compose.yml
+  become_user: vagrant
+  replace:
+    path: $HOME/dockerize/docker-compose.yml
+    regexp: '"6379"$'
+    replace: '"6379:6379"'
+    backup: no
+
+- name: Replace '15672' to '15672:15672' in docker-compose.yml
+  become_user: vagrant
+  replace:
+    path: $HOME/dockerize/docker-compose.yml
+    regexp: '"15672"$'
+    replace: '"15672:15672"'
+    backup: no
+
+- name: Replace '5672' to '5672:5672' in docker-compose.yml
+  become_user: vagrant
+  replace:
+    path: $HOME/dockerize/docker-compose.yml
+    regexp: '"5672"$'
+    replace: '"5672:5672"'
+    backup: no
+
+#Actually, we can manage docker services and containers using ansible instead of using 'command' of 'shell' but this is just for time being.
+
+- name: Start Docker Daemon
+  command: systemctl start docker
+
+- name: Enable Docker  on boot, start docker
+  service: name=docker enabled=yes state=started
+
+- name:  Start support services
+  become_user: root
+  shell: >
+    executable=/bin/bash
+    cd /home/vagrant/dockerize && source /home/vagrant/b2share_devenvrc && docker-compose -f docker-compose.yml up -d
+
+- name: wait for postgres become open on the host, don't start checking for 30 seconds
+  wait_for: port=5432 delay=30
+
+- name: wait for elasticsearch become open on the host, don't start checking for 30 seconds
+  wait_for: port=9200 delay=30
+
+- name: wait for elasticsearch become open on the host, don't start checking for 30 seconds
+  wait_for: port=9300 delay=30
+
+- name: wait for redis become open on the host, don't start checking for 30 seconds
+  wait_for: port=6379 delay=30
+
+- name: wait for mq become open on the host, don't start checking for 30 seconds
+  wait_for: port=15672 delay=30
+
+- name: wait for mq become open on the host, don't start checking for 30 seconds
+  wait_for: port=5672 delay=30
+
+- name:  Load demo config
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    source `which virtualenvwrapper.sh` && workon b2share_dev-P3.5 && b2share demo load_config
+git
+- name: Initialize Database for B2Share Demo - part 1
+  become_user: vagrant
+  register: waiting_for_stack
+  shell: >
+    executable=/bin/bash
+    source `which virtualenvwrapper.sh` && workon b2share_dev-P3.5 && b2share db init
+  until: waiting_for_stack.stdout.find("Creating database")!= -1
+- debug: var=waiting_for_stack.stdout_lines
+
+- name: Initialize Database for B2Share Demo - part 2
+  become_user: vagrant
+  register: waiting_for_stack
+  shell: >
+    executable=/bin/bash
+    source `which virtualenvwrapper.sh` && workon b2share_dev-P3.5 && b2share upgrade run -v
+  until: waiting_for_stack.stdout.find("LOADED 1 schemas")!= -1
+- debug: var=waiting_for_stack.stdout_lines
+
+- name: Load B2SHARE Demo data
+  become_user: vagrant
+  register: waiting_for_stack
+  shell: >
+    executable=/bin/bash
+    source `which virtualenvwrapper.sh` && workon b2share_dev-P3.5 && b2share demo load_data
+  until: waiting_for_stack.stdout.find("Creating user")!= -1
+- debug: var=waiting_for_stack.stdout_lines
+
+#- name: remove public block
+#  ini_file:
+#    path: $HOME/dockerize/docker-compose.yml
+#    section: b2share
+#    state: absent
+
+
+  #- name: Clone a private repository into /opt.
+#  become_user: vagrant
+#    repo: git@github.com:ekoi/b2share.git
+#    version: master
+#    dest: $HOME/Devel/b2share
+#    accept_hostkey: yes
+  # ssh-agent doesn't allow key to pass through remote sudo commands.
+
+
+#- name: Install Virtualenv wrappers
+#  pip:
+#    name:
+#      - virtualenvwrapper
+#    state: present
+#
+#- name: Run 'mkvirtualenv miniverse'
+#  shell: >
+#    executable=/bin/bash
+#    source `which virtualenvwrapper.sh` && mkvirtualenv b2share

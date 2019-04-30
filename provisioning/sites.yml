@@ -1,0 +1,12 @@
+- hosts: all
+  become: yes
+  roles:
+#    - fabric
+#    - composer
+
+- hosts: devb2share
+  become: yes
+  roles:
+    - docker-setup
+#    - fabric
+#    - composer
