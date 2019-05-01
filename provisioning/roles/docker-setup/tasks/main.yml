@@ -248,7 +248,7 @@
   shell: >
     executable=/bin/bash
     source `which virtualenvwrapper.sh` && workon b2share_dev-P3.5 && b2share demo load_config
-git
+
 - name: Initialize Database for B2Share Demo - part 1
   become_user: vagrant
   register: waiting_for_stack

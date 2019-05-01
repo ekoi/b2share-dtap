@@ -8,5 +8,3 @@
   become: yes
   roles:
     - docker-setup
-#    - fabric
-#    - composer
