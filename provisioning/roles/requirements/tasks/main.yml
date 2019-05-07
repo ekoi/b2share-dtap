@@ -1,0 +1,48 @@
+# installation tasks.
+#
+---
+- name: EPEL repository
+  yum: name=epel-release state=latest
+
+- name: Add docker yum repository
+  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: Add IUS repository
+  yum:
+    name:  https://centos7.iuscommunity.org/ius-release.rpm
+    state: present
+
+- name: install the 'Development tools' package group
+  yum:
+    name: "@Development tools"
+    state: present
+
+- name: Install dependencies
+  yum:
+    state: latest
+    name:
+      - elinks
+      - git
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - python35u
+      - python35u-libs
+      - python35u-devel
+      - python35u-pip
+      - docker-ce
+      - libsecret
+      - unzip
+      - mlocate
+      - python2-pip
+      - redhat-rpm-config
+      - gcc
+      - libffi-devel
+      - python-devel
+      - openssl-devel
+      - libxml2
+      - libxml2-devel
+      - libxslt
+      - libxslt-devel
+
+
