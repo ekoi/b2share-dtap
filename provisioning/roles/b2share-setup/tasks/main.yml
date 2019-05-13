@@ -230,3 +230,16 @@
     source `which virtualenvwrapper.sh` && workon b2share_dev-P3.5 && b2share demo load_data
   until: waiting_for_stack.stdout.find("Creating user")!= -1
 - debug: var=waiting_for_stack.stdout_lines
+
+- name: Copy b2share servicescript
+  template:
+    src: b2share.service
+    dest: /etc/systemd/system/b2share.service
+    mode: 0755
+
+- name: Reload systemd
+  shell: systemctl daemon-reload
+
+# Start service
+- name: Enable b2share on boot, start b2share
+  service: name=b2share enabled=yes state=restarted

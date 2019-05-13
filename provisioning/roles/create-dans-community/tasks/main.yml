@@ -1,0 +1,39 @@
+# installation tasks.
+#
+---
+
+- name: Copy dans logo file
+  become_user: vagrant
+  copy:
+    src: dans-logo.png
+    dest: $HOME/b2share/webui/app/img/communities
+
+- name: Create DANS Community
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    source `which virtualenvwrapper.sh` && workon b2share_dev-P3.5 && b2share communities create "DANS" "DANS community" "dans-logo.png"
+
+- name: Check DANS Community exists
+  become_user: vagrant
+  register: waiting_for_stack
+  shell: >
+    executable=/bin/bash
+    source `which virtualenvwrapper.sh` && workon b2share_dev-P3.5 && b2share communities list
+  until: waiting_for_stack.stdout.find("DANS")!= -1
+- debug: var=waiting_for_stack.stdout_lines
+
+- name: Copy dans schema file
+  become_user: vagrant
+  copy:
+    src: dans-schema.json
+    dest: /tmp
+
+- name: Set DANS schema
+  become_user: vagrant
+  register: waiting_for_stack
+  shell: >
+    executable=/bin/bash
+    source `which virtualenvwrapper.sh` && workon b2share_dev-P3.5 && b2share communities set_schema "DANS" /tmp/dans-schema.json
+  until: waiting_for_stack.stdout.find("Succesfully")!= -1
+- debug: var=waiting_for_stack.stdout_lines

@@ -1,0 +1,33 @@
+[Unit]
+Description=B2Share Service
+After=network.target
+
+[Service]
+User=vagrant
+Group=vagrant
+Type=simple
+WorkingDirectory=/home/vagrant/.virtualenvs/b2share_dev-P3.5
+
+Environment="B2ACCESS_CONSUMER_KEY=KEY"
+Environment="B2ACCESS_SECRET_KEY=PASSWORD"
+Environment="B2SHARE_SECRET_KEY=SECRET-KEY"
+Environment="B2SHARE_JSONSCHEMAS_HOST=devb2share.dans.knaw.nl:5000"
+Environment="B2SHARE_POSTGRESQL_DBNAME=defaultuser"
+Environment="B2SHARE_POSTGRESQL_PASSWORD=defaultpassword"
+Environment="B2SHARE_DATADIR=/home/vagrant/b2share-data"
+Environment="B2SHARE_UI_PATH=/home/vagrant/b2share/webui/app"
+Environment="USE_STAGING_B2ACCESS=1"
+Environment="B2SHARE_PREFERRED_URL_SCHEME=http"
+Environment="B2SHARE_SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://user:password@localhost:5432/dbname"
+Environment="B2SHARE_CACHE_REDIS_HOST=redis"
+Environment="B2SHARE_CACHE_REDIS_URL=redis://localhost:6379/0"
+Environment="B2SHARE_ACCOUNTS_SESSION_REDIS_URL=redis://localhost:6379/1"
+Environment="B2SHARE_BROKER_URL=amqp://user:pass@localhost:5672/"
+Environment="B2SHARE_CELERY_BROKER_URL=amqp://user:pass@localhost:5672/"
+Environment="B2SHARE_CELERY_RESULT_BACKEND=redis://localhost:6379/2"
+Environment="B2SHARE_SEARCH_ELASTIC_HOSTS=localhost"
+ExecStart=/home/vagrant/.virtualenvs/b2share_dev-P3.5/bin/b2share run -h 0.0.0.0 -p 5000 --reload
+
+[Install]
+WantedBy=multi-user.target
+
