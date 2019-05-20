@@ -1,0 +1,30 @@
+# installation tasks.
+#
+---
+
+- name: Copy 'archive.jsx' for archiving purposes
+  become_user: vagrant
+  copy:
+    src: archive.jsx
+    dest: $HOME/b2share/webui/src/components
+
+- name: Copy 'record.jsx' for archiving purposes
+  become_user: vagrant
+  copy:
+    src: record.jsx
+    dest: $HOME/b2share/webui/src/components
+
+- name: Copy 'ajax.js' for archiving purposes
+  become_user: vagrant
+  copy:
+    src: ajax.js
+    dest: $HOME/b2share/webui/src/data
+
+- name: Config webpack js
+  become_user: vagrant
+  register: waiting_for_stack
+  shell: >
+    executable=/bin/bash
+    cd $HOME/b2share/webui && node_modules/webpack/bin/webpack.js --config webpack.config.devel.js
+  until: waiting_for_stack.stdout.find("b2share-bundle.js")!= -1
+- debug: var=waiting_for_stack.stdout_lines
