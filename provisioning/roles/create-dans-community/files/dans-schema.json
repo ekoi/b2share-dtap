@@ -3,13 +3,7 @@
   "title": "DANS Metadata Schema",
   "description": "This is the blueprint of the metadata block specific for DANS community",
   "type": "object",
-  "properties": {
-    "archived": {
-      "title": "This record has been archived",
-      "description": "Indicate whether this record has been archived into long term preservation system.",
-      "type": "boolean"
-    }
-  },
+  "properties": {},
   "b2share": {
     "presentation": {
       "major": []

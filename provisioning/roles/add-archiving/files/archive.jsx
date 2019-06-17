@@ -43,7 +43,7 @@ export const Archive = React.createClass({
     render() {
 		let {recordID, communityName, version} = this.props;
 
-		bridgeUrl= 'http://localhost:8592/api/v1/archiving/state?srcMetadataUrl=http://192.168.33.11:5000/api/records/' + recordID +'&srcMetadataVersion=' + version + '&targetDarName=EASY',
+		bridgeUrl= 'http://localhost:8592/api/v1/archiving/state?srcMetadataUrl=http://192.168.33.11:5000/api/records/' + recordID +'&srcMetadataVersion=' + version + '&targetDarName=EASY';
 
 		const className = this.state.checked ? 'toggle checkbox TRUE checked'  : 'toggle FALSE checkbox';
 		const archiveButtonLabel = this.state.archivingState;
