@@ -8,8 +8,8 @@ Group=vagrant
 Type=simple
 WorkingDirectory=/home/vagrant/.virtualenvs/b2share_dev-P3.5
 
-Environment="B2ACCESS_CONSUMER_KEY=ekoindarto2018"
-Environment="B2ACCESS_SECRET_KEY=Qwerty123"
+Environment="B2ACCESS_CONSUMER_KEY="
+Environment="B2ACCESS_SECRET_KEY="
 Environment="B2SHARE_SECRET_KEY=SECRET-KEY"
 Environment="B2SHARE_JSONSCHEMAS_HOST=devb2share.dans.knaw.nl:5000"
 Environment="B2SHARE_POSTGRESQL_DBNAME=defaultuser"
