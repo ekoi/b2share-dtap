@@ -144,12 +144,14 @@ const Record = React.createClass({
         const creators = testget(metadata, 'creators');
         const pid = metadata.get('ePIC_PID');
         const doi = metadata.get('DOI');
-        const commName = serverCache.getCommunity(record.getIn(['metadata', 'community'])).getIn(['name']);
-        const rVersion =  record.getIn(['versions',0, 'version']);
+        var communityName = '';
+        if(community)
+            communityName = community.get("name");
+
         return (
             <div>
-                <Archive recordID={record.get('id')} communityName={commName} version={rVersion}/> 
-                <Versions recordID={record.get('id')} versions={record.get('versions')}/>
+
+                <Versions recordID={record.get('id')} versions={record.get('versions')} communityName={communityName}/>
 
                 <div className="row">
                     <div className="col-sm-12">

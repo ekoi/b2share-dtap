@@ -30,31 +30,6 @@ export function ajaxGet({url, params, etag, successFn, errorFn, completeFn}) {
     return ajaxWithError(aobj);
 }
 
-
-export function ajaxPost2({url, params, successFn, errorFn, completeFn}) {
-    var jsonData={ "darData": { "darName": "EASY", "darPassword": "user001", "darUserAffiliation": "B2SHARE", "darUsername": "user001" }, "srcData": { "srcApiToken": "qwerty", "srcMetadataUrl": "http://192.168.33.11:5000/api/records/" + params, "srcMetadataVersion": "1", "srcName": "b2share" } };
-    var x = JSON.stringify(jsonData);
-    console.log("--- ajaxPost:", timestamp(), url, params?params:"");
-    const aobj = {
-        method: 'post',
-        url: url,
-        type: 'json',
-        data: x,
-        contentType: 'application/json',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'api_key': 'qwerty'
-        },
-        success: successFn,
-        error: errorFn,
-        complete: completeFn,
-        timeout: DEFAULT_TIMEOUT_POST_MS,
-    }
-    
-    return ajaxWithError(aobj);
-}
-
 export function ajaxPost({url, params, successFn, errorFn, completeFn}) {
     console.log("--- ajaxPost:", timestamp(), url, params?params:"");
     const aobj = {
@@ -62,6 +37,28 @@ export function ajaxPost({url, params, successFn, errorFn, completeFn}) {
         url: url,
         type: 'json',
         contentType: 'application/json',
+        success: successFn,
+        error: errorFn,
+        complete: completeFn,
+        timeout: DEFAULT_TIMEOUT_POST_MS,
+    }
+    if (params) {
+        aobj.data = JSON.stringify(params);
+    }
+    return ajaxWithError(aobj);
+}
+
+export function ajaxPostWithHeaders({url, apikey, params, successFn, errorFn, completeFn}) {
+    console.log("--- ajaxPost:", timestamp(), url, params?params:"");
+    const aobj = {
+        method: 'post',
+        url: url,
+        type: 'json',
+        contentType: 'application/json',
+        headers: {
+            'Accept': 'application/json',
+            'api_key': apikey
+        },
         success: successFn,
         error: errorFn,
         complete: completeFn,

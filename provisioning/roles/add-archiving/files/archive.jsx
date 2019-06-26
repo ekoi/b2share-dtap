@@ -1,12 +1,11 @@
 import React, { Component } from 'react/lib/ReactWithAddons';
-import { ajaxGet, ajaxPost, ajaxPost2 } from '../data/ajax.js';
+import { ajaxGet, ajaxPostWithHeaders } from '../data/ajax.js';
 import { Link } from 'react-router';
 
 
 
 const PT = React.PropTypes;
-var bridgeUrl = 'frasn';
-
+var bridgeUrl = 'akmi';
 export const Archive = React.createClass({
 	getInitialState() {
 		return {
@@ -41,10 +40,15 @@ export const Archive = React.createClass({
 		});
 	  },
     render() {
-		let {recordID, communityName, version} = this.props;
+		let {recordID, communityName, curVersion} = this.props;
+		console.log("================ begin =============== recordID: ");
+		console.log("recordID: " + recordID);
+		console.log("communityName: " + communityName);
+		console.log("versions: " + curVersion.index);
+		console.log("================ end =============== recordID: " );
+		const curVersionNum = curVersion.index + 1;
 
-		bridgeUrl= 'http://localhost:8592/api/v1/archiving/state?srcMetadataUrl=http://192.168.33.11:5000/api/records/' + recordID +'&srcMetadataVersion=' + version + '&targetDarName=EASY';
-
+		bridgeUrl= 'http://localhost:8592/api/v1/archiving/state?srcMetadataUrl=http://192.168.33.11:5000/api/archive/?r=' + recordID +'&srcMetadataVersion=' + curVersionNum + '&targetDarName=EASY';
 		const className = this.state.checked ? 'toggle checkbox TRUE checked'  : 'toggle FALSE checkbox';
 		const archiveButtonLabel = this.state.archivingState;
 		const archiveLinkUrl = this.state.archivingLink;
@@ -56,12 +60,12 @@ export const Archive = React.createClass({
             padding:'15px',
         };
         const doArchive = () => {
-			var jsonData={ "darData": { "darName": "EASY", "darPassword": "user001", "darUserAffiliation": "B2SHARE", "darUsername": "user001" }, "srcData": { "srcApiToken": "qwerty", "srcMetadataUrl": "http%3A%2F%2F192.168.33.11%3A5000%2Fapi%2Frecords%2F8fabac2fc0074e7ab010bad0b48e3603", "srcMetadataVersion": "1", "srcName": "b2share" } };
+			var jsonData={ "darData": { "darName": "EASY", "darPassword": "user001", "darUserAffiliation": "B2SHARE", "darUsername": "user001" }, "srcData": { "srcApiToken": "qwerty", "srcMetadataUrl": "http://192.168.33.11:5000/api/archive/?r=" + recordID, "srcMetadataVersion": curVersionNum, "srcName": "b2share" } };
 			var urlArchive = 'http://localhost:8592/api/v1/archiving';
-
-			ajaxPost2({
+			ajaxPostWithHeaders({
 				url: 'http://localhost:8592/api/v1/archiving',
-				params: recordID,
+				apikey: 'qwerty',
+				params: jsonData,
 				successFn: (data) => {
 					console.log("Archiving success");
 					this.setState({archivingState : 'Archiving in progress'});
@@ -99,13 +103,9 @@ export const Archive = React.createClass({
 		if (archiveButtonLabel.includes('dans'))
         return (
             <div style={style}>
-				{/* <button onClick={checkArchivingStatus} title={'Archiving'}>{archiveButtonLabel}</button> */}
-				{/* <button onClick={hello('xxxjjjjjjjddd')}>{archiveButtonLabel}</button> */}
-
 				DANS DOI: <a target="_blank" href={archiveLinkUrl}>{archiveButtonLabel}</a>
             </div>
         );
     }
 
 });
-
