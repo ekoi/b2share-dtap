@@ -55,10 +55,11 @@ class ApiArchive(ContentNegotiatedMethodView):
             record = Record.get_record(rec_pid.object_uuid)
             for f in record.get('_files', []):
                 fmimetype = fm.ObjectVersion.get(f.get('bucket'), f.get('key'), f.get('version_id')).mimetype
-                pid = f.get('bucket')
                 f.update({'mimetype': fmimetype})
                 fileLocation = current_app.config.get('PREFERRED_URL_SCHEME', '') + '://' + current_app.config.get('JSONSCHEMAS_HOST', '') + '/api/files/' + f.get('bucket') + '/' + f.get('key')
                 f.update({'file-location': fileLocation})
+                fileName = f.get('key')
+                f.update({'name': fileName})
             return record
         except:
             return abort(404)
