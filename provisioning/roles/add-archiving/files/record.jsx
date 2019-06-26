@@ -144,9 +144,7 @@ const Record = React.createClass({
         const creators = testget(metadata, 'creators');
         const pid = metadata.get('ePIC_PID');
         const doi = metadata.get('DOI');
-        var communityName = '';
-        if(community)
-            communityName = community.get("name");
+        const communityName = community ? community.get("name"):'';
 
         return (
             <div>
