@@ -9,7 +9,6 @@ import { ReplaceAnimate } from './animate.jsx';
 import { Wait, Err } from './waiting.jsx';
 import { FileRecordHeader, FileRecordRow, PersistentIdentifier } from './editfiles.jsx';
 import { Versions } from './versions.jsx';
-import { Archive } from './archive.jsx';
 import { getSchemaOrderedMajorAndMinorFields } from './schema.jsx';
 
 
