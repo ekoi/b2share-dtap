@@ -1,30 +1,30 @@
 import React, { Component } from 'react/lib/ReactWithAddons';
-import { ajaxGet, ajaxPostWithHeaders } from '../data/ajax.js';
+import { ajaxGet, ajaxPost } from '../data/ajax.js';
 import { Link } from 'react-router';
 
 
 
 const PT = React.PropTypes;
 var bridgeUrl = 'akmi';
+var versionsUrl='';
+
 export const Archive = React.createClass({
 	getInitialState() {
 		return {
 		  checked: false,
 			archivingState: '',
 			archivingLink: '',
+			versionsData: '',
 		};
 	  },
 	mixins: [React.addons.PureRenderMixin],
 	componentDidMount() {
 		ajaxGet({
 			url: bridgeUrl,
-			headers: {
-				'Accept': 'application/json'
-			},
 			successFn : (data) => {
 				if (data.pid) {
-					this.setState({archivingState : data.pid});
-					this.setState({archivingLink : data.darLandingPage});
+					this.setState({archivingState : data.pid.replace("https://doi.org/", "")});
+					this.setState({archivingLink : data.pid});
 				} else {
 				this.setState({checked : true});
 				this.setState({archivingState : 'Archiving in progress'});
@@ -38,17 +38,14 @@ export const Archive = React.createClass({
 					this.setState({archivingState : ''});
 			  }
 		});
+
 	  },
     render() {
 		let {recordID, communityName, curVersion} = this.props;
-		console.log("================ begin =============== recordID: ");
-		console.log("recordID: " + recordID);
-		console.log("communityName: " + communityName);
-		console.log("versions: " + curVersion.index);
-		console.log("================ end =============== recordID: " );
 		const curVersionNum = curVersion.index + 1;
 
-		bridgeUrl= 'http://localhost:8592/api/v1/archiving/state?srcMetadataUrl=http://192.168.33.11:5000/api/archive/?r=' + recordID +'&srcMetadataVersion=' + curVersionNum + '&targetDarName=EASY';
+		bridgeUrl= 'http://devb2share.dans.knaw.nl:5000/api/archive/state?r=' + recordID +'&srcMetadataVersion=' + curVersionNum;
+
 		const className = this.state.checked ? 'toggle checkbox TRUE checked'  : 'toggle FALSE checkbox';
 		const archiveButtonLabel = this.state.archivingState;
 		const archiveLinkUrl = this.state.archivingLink;
@@ -60,11 +57,9 @@ export const Archive = React.createClass({
             padding:'15px',
         };
         const doArchive = () => {
-			var jsonData={ "darData": { "darName": "EASY", "darPassword": "user001", "darUserAffiliation": "B2SHARE", "darUsername": "user001" }, "srcData": { "srcApiToken": "qwerty", "srcMetadataUrl": "http://192.168.33.11:5000/api/archive/?r=" + recordID, "srcMetadataVersion": curVersionNum, "srcName": "b2share" } };
-			var urlArchive = 'http://localhost:8592/api/v1/archiving';
-			ajaxPostWithHeaders({
-				url: 'http://localhost:8592/api/v1/archiving',
-				apikey: 'qwerty',
+			var jsonData = {"record" : recordID, "version" : curVersionNum}
+			ajaxPost({
+				url: 'http://devb2share.dans.knaw.nl:5000/api/archive',
 				params: jsonData,
 				successFn: (data) => {
 					console.log("Archiving success");
@@ -72,9 +67,8 @@ export const Archive = React.createClass({
 				},
 				errorFn: (xhr) => {
 					console.log('POST - response code: ' + xhr.status);
-					//alert("error: " + xhr.status);
 					if(xhr.status == 408)
-						alert("Invalid EASY credentials.");
+						console.log("Invalid EASY credentials.");
 				  }
 			});
 

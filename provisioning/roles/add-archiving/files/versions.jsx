@@ -20,7 +20,6 @@ export const Versions = React.createClass({
         if (!versions) {
             return false;
         }
-
         if (versions && versions.toJS) {
             versions = versions.toJS();
         }
@@ -84,18 +83,18 @@ const PublishedVersions = React.createClass({
 
         return (
             <div>
-            <Archive recordID={recordID} communityName={communityName} curVersion={thisVersion}/>
-            <div className={versionClass} style={style}>
-                <div className="btn" style={{display: 'inline-block', color:'black', border: '0px solid #eee'}}>
-                    { beQuiet ? "" : "This --record has newer versions. " }
-                </div>
+                <Archive recordID={recordID} communityName={communityName} curVersion={thisVersion}/>
+                <div className={versionClass} style={style}>
+                    <div className="btn" style={{display: 'inline-block', color:'black', border: '0px solid #eee'}}>
+                        { beQuiet ? "" : "This record has newer versions. " }
+                    </div>
 
-                <div style={{display: 'inline-block', verticalAlign: 'middle', marginBottom: '1px', padding: '0px', width: '17em'}}>
-                    <DropdownList data={versions} defaultValue={thisVersion}
-                        valueComponent={VerItemRenderer} itemComponent={VerItemRenderer}
-                        onChange={handleVersionChange}/>
+                    <div style={{display: 'inline-block', verticalAlign: 'middle', marginBottom: '1px', padding: '0px', width: '17em'}}>
+                        <DropdownList data={versions} defaultValue={thisVersion}
+                            valueComponent={VerItemRenderer} itemComponent={VerItemRenderer}
+                            onChange={handleVersionChange}/>
+                    </div>
                 </div>
-            </div>
             </div>
         );
     },
