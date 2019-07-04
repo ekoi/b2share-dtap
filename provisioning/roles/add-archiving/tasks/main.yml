@@ -1,4 +1,4 @@
-# installation tasks.
+# add archiving tasks.
 #
 ---
 
@@ -14,11 +14,11 @@
     src: record.jsx
     dest: $HOME/b2share/webui/src/components
 
-- name: Copy 'ajax.js' for archiving purposes
+- name: Copy 'versions.jsx' for archiving purposes
   become_user: vagrant
   copy:
-    src: ajax.js
-    dest: $HOME/b2share/webui/src/data
+    src: versions.jsx
+    dest: $HOME/b2share/webui/src/components
 
 - name: Config webpack js
   become_user: vagrant

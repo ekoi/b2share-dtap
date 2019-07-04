@@ -7,3 +7,6 @@
   roles:
     - requirements
     - b2share-setup
+    - create-dans-community
+    - add-archiving
+    - add-archive-module

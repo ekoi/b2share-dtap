@@ -1,0 +1,43 @@
+# add archive module tasks.
+#
+---
+- set_fact:
+    archiving_module_dir: $HOME/b2share/b2share/modules/apiarchive
+
+- name: Create archiving api dir
+  become_user: vagrant
+  file:
+    path: "{{ archiving_module_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Copy '__init__.py' for archiving purposes
+  become_user: vagrant
+  copy:
+    src: __init__.py
+    dest: "{{ archiving_module_dir }}"
+
+- name: Copy 'ext.py' for archiving purposes
+  become_user: vagrant
+  copy:
+    src: ext.py
+    dest: "{{ archiving_module_dir }}"
+
+- name: Copy 'views.py' for archiving purposes
+  become_user: vagrant
+  copy:
+    src: views.py
+    dest: "{{ archiving_module_dir }}"
+
+- name: Inserting a line for archiving purposes
+  become_user: vagrant
+  lineinfile:
+    path: $HOME/b2share/setup.py
+    line: "\t    'b2share_apiarchive = b2share.modules.apiarchive:B2ShareApiArchive',"
+    insertafter: "'b2share_apiroot = b2share.modules.apiroot:B2ShareApiRoot',"
+
+- name: Update
+  become_user: vagrant
+  shell: >
+    executable=/bin/bash
+    source `which virtualenvwrapper.sh` && cd $HOME/b2share && workon b2share_dev-P3.5 && pip3 install -e .
