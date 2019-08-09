@@ -19,26 +19,27 @@
 
 from __future__ import absolute_import
 
-from flask import Blueprint, jsonify, current_app, request, abort
-
-from invenio_rest import ContentNegotiatedMethodView
-from invenio_files_rest import models as fm
-from invenio_records.api import Record
-from b2share.modules.records.providers import RecordUUIDProvider
+import json
+import os
 
 from b2share import __version__
-
-import json, os
+from b2share.modules.records.providers import RecordUUIDProvider
+from flask import Blueprint, abort, current_app, jsonify, request
+from invenio_files_rest import models as fm
+from invenio_records.api import Record
+from invenio_rest import ContentNegotiatedMethodView
 
 blueprint = Blueprint('b2share_apiarchive', __name__, url_prefix='/archive')
 
-bridgeUrl = os.environ.get('BRIDGE_URL','http://localhost:8592/api/v1') + '/archiving'
-bridgeApikey = os.environ.get('BRIDGE_APIKEY','akmi')
-b2shareArchiveUrl = os.environ.get('B2SHARE_PREFERRED_URL_SCHEME', 'http') + '://' + os.environ.get('B2SHARE_JSONSCHEMAS_HOST', 'localhost:5000') + '/api/archive'
+BRIDGE_URL = os.environ.get('BRIDGE_URL',
+                            'http://localhost:8592/api/v1') + '/archiving'
+BRIDGE_API_KEY = os.environ.get('BRIDGE_APIKEY', 'akmi')
+B2SHARE_ARCHIVE_URL = os.environ.get(
+    'B2SHARE_PREFERRED_URL_SCHEME', 'http') + '://' + os.environ.get(
+        'B2SHARE_JSONSCHEMAS_HOST', 'localhost:5000') + '/api/archive'
 
 
 class ApiArchive(ContentNegotiatedMethodView):
-
     def __init__(self, resolver=None, **kwargs):
         """Constructor.
         :param resolver: Persistent identifier resolver instance.
@@ -57,34 +58,40 @@ class ApiArchive(ContentNegotiatedMethodView):
         self.resolver = resolver
 
     def get(self, **kwargs):
-        r = request.args.get('r')
-        if r is None:
+        input_record = request.args.get('r')
+        if input_record is None:
             return abort(400)
 
         try:
-            rec_pid = RecordUUIDProvider.get(r).pid
+            rec_pid = RecordUUIDProvider.get(input_record).pid
             record = Record.get_record(rec_pid.object_uuid)
-            for f in record.get('_files', []):
-                fmimetype = fm.ObjectVersion.get(f.get('bucket'), f.get('key'), f.get('version_id')).mimetype
-                f.update({'mimetype': fmimetype})
-                fileLocation = current_app.config.get('PREFERRED_URL_SCHEME', '') + '://' + current_app.config.get('JSONSCHEMAS_HOST', '') + '/api/files/' + f.get('bucket') + '/' + f.get('key')
-                f.update({'file-location': fileLocation})
-                fileName = f.get('key')
-                f.update({'name': fileName})
+            for file in record.get('_files', []):
+                fmimetype = fm.ObjectVersion.get(
+                    file.get('bucket'), file.get('key'),
+                    file.get('version_id')).mimetype
+                file.update({'mimetype': fmimetype})
+                file_location = current_app.config.get(
+                    'PREFERRED_URL_SCHEME',
+                    '') + '://' + current_app.config.get(
+                        'JSONSCHEMAS_HOST', '') + '/api/files/' + file.get(
+                            'bucket') + '/' + file.get('key')
+                file.update({'file-location': file_location})
+                file_name = file.get('key')
+                file.update({'name': file_name})
             return record
         except:
             return abort(404)
 
     def post(self, **kwargs):
         content = request.json
-        r = content['record']
-        v = content['version']
+        input_record = content['record']
+        version_record = content['version']
 
-        if (r or v) is None:
+        if (input_record or version_record) is None:
             return abort(400)
 
-        bridgeDarUsername = os.environ.get('BRIDGE_DAR_USERNAME','akmi')
-        bridgeDarPassword = os.environ.get('BRIDGE_DAR_PASSWORD','akmi')
+        bridge_dar_username = os.environ.get('BRIDGE_DAR_USERNAME', 'akmi')
+        bridge_dar_password = os.environ.get('BRIDGE_DAR_PASSWORD', 'akmi')
         try:
             import urllib2 as http
         except ImportError:
@@ -92,14 +99,27 @@ class ApiArchive(ContentNegotiatedMethodView):
 
         try:
 
-            postdata = { "darData": { "darName": "EASY", "darPassword": bridgeDarPassword, "darUserAffiliation": "B2SHARE", "darUsername": bridgeDarUsername }, "srcData": { "srcApiToken": bridgeApikey, "srcMetadataUrl": b2shareArchiveUrl + '?r=' + r, "srcMetadataVersion": v, "srcName": "b2share" } }
+            postdata = {
+                "darData": {
+                    "darName": "EASY",
+                    "darPassword": bridge_dar_password,
+                    "darUserAffiliation": "B2SHARE",
+                    "darUsername": bridge_dar_username
+                },
+                "srcData": {
+                    "srcApiToken": BRIDGE_API_KEY,
+                    "srcMetadataUrl": B2SHARE_ARCHIVE_URL + '?r=' + input_record,
+                    "srcMetadataVersion": version_record,
+                    "srcName": "b2share"
+                }
+            }
 
-            req = http.Request(bridgeUrl)
+            req = http.Request(BRIDGE_URL)
             req.add_header('Accept', 'application/json')
-            req.add_header('Content-Type','application/json')
-            req.add_header('api_key', bridgeApikey)
+            req.add_header('Content-Type', 'application/json')
+            req.add_header('api_key', BRIDGE_API_KEY)
             jsondataasbytes = json.dumps(postdata).encode('utf-8')
-            response = http.urlopen(req,jsondataasbytes)
+            response = http.urlopen(req, jsondataasbytes)
 
             # f = http.urlopen(req)
             content = response.read()
@@ -112,8 +132,8 @@ class ApiArchive(ContentNegotiatedMethodView):
 
         return abort(500)
 
-class ApiArchiveState(ContentNegotiatedMethodView):
 
+class ApiArchiveState(ContentNegotiatedMethodView):
     def __init__(self, resolver=None, **kwargs):
         """Constructor."""
         default_media_type = 'application/json'
@@ -129,9 +149,9 @@ class ApiArchiveState(ContentNegotiatedMethodView):
         self.resolver = resolver
 
     def get(self, **kwargs):
-        r = request.args.get('r')
+        input_record = request.args.get('r')
         smv = request.args.get('srcMetadataVersion')
-        if (r or smv) is None:
+        if (input_record or smv) is None:
             return abort(400)
 
         try:
@@ -140,31 +160,29 @@ class ApiArchiveState(ContentNegotiatedMethodView):
             from urllib import request as http
 
         try:
-            rec_pid = RecordUUIDProvider.get(r).pid # When the given record doesn't exist, throw exception
-            smu = b2shareArchiveUrl + "?r=" + r
-            bridgeUrlState = bridgeUrl + "/state?srcMetadataUrl=" + smu + "&srcMetadataVersion=" + smv + "&targetDarName=EASY"
-            req = http.Request(bridgeUrlState)
+            rec_pid = RecordUUIDProvider.get(
+                input_record).pid  # When the given record doesn't exist, throw exception
+            smu = B2SHARE_ARCHIVE_URL + "?r=" + input_record
+            bridge_url_state = \
+                BRIDGE_URL + "/state?srcMetadataUrl=" + smu \
+                + "&srcMetadataVersion=" + smv \
+                + "&targetDarName=EASY"
+            req = http.Request(bridge_url_state)
             req.add_header('Accept', 'application/json')
-            req.add_header('Content-Type','application/json')
+            req.add_header('Content-Type', 'application/json')
 
-            # http_logger = http.HTTPHandler(debuglevel = 1)
-            # opener = http.build_opener(http_logger) # put your other handlers here too!
-            # http.install_opener(opener)
             response = http.urlopen(req)
             content = response.read()
             response.close()
             dict_content = json.loads(content.decode('utf-8'))
             state = dict_content['state']
-            if state == 'ARCHIVED' :
+            if state == 'ARCHIVED':
                 return self.make_response({
                     'state': state,
                     'pid': dict_content['landingPage']
                 })
             else:
-                return self.make_response({
-                    'state': state
-                })
-
+                return self.make_response({'state': state})
 
         except http.HTTPError as e:
             if e.code == 404:
@@ -172,6 +190,7 @@ class ApiArchiveState(ContentNegotiatedMethodView):
             else:
                 print("Response code: " + e)
             return abort(404)
+
 
 blueprint.add_url_rule('', view_func=ApiArchive.as_view('info'))
 blueprint.add_url_rule('/state', view_func=ApiArchiveState.as_view('state'))
