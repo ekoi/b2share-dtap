@@ -29,12 +29,58 @@
     src: views.py
     dest: "{{ archiving_module_dir }}"
 
-- name: Inserting a line for archiving purposes
+- name: Inserting 'b2share_apiarchive = b2share.modules.apiarchive:B2ShareApiArchive' to 'b2share/setup.py' for archiving purposes
   become_user: vagrant
   lineinfile:
     path: $HOME/b2share/setup.py
     line: "\t    'b2share_apiarchive = b2share.modules.apiarchive:B2ShareApiArchive',"
     insertafter: "'b2share_apiroot = b2share.modules.apiroot:B2ShareApiRoot',"
+    state: present
+
+- name: Inserting block line to 'b2share/b2share/config.py' for archiving purposes
+  become_user: vagrant
+  blockinfile:
+    path: $HOME/b2share/b2share/config.py
+    insertafter: EOF
+    marker: False
+    state: present
+    block: |
+      # Hide edit metadata button. Comma sparated communities list.
+      COMMUNITIES_HIDE_EDITMETADATA='DANS,EKOxxx'
+      # Enable archive button. Comma sparated communities list.
+      COMMUNITIES_ENABLE_ARCHIVE='DANS,jppp'
+
+- name: Inserting 'COMMUNITIES_HIDE_EDITMETADATA' to 'b2share/b2share/modules/apiroot/views.py' for archiving purposes
+  become_user: vagrant
+  lineinfile:
+    path: $HOME/b2share/b2share/modules/apiroot/views.py
+    line: "\t    'communities_hide_editmetadata': current_app.config.get('COMMUNITIES_HIDE_EDITMETADATA'),"
+    insertafter: "'terms_of_use_link': current_app.config.get\\('TERMS_OF_USE_LINK'\\),"
+    state: present
+
+- name: Inserting 'COMMUNITIES_ENABLE_ARCHIVE' to 'b2share/b2share/modules/apiroot/views.py' for archiving purposes
+  become_user: vagrant
+  lineinfile:
+    path: $HOME/b2share/b2share/modules/apiroot/views.py
+    line: "\t    'communities_enable_archive': current_app.config.get('COMMUNITIES_ENABLE_ARCHIVE'),"
+    insertafter: "'terms_of_use_link': current_app.config.get\\('TERMS_OF_USE_LINK'\\),"
+    state: present
+
+- name: Inserting 'communities_hide_editmetadata' to 'b2share/webui/src/data/server.js' for archiving purposes
+  become_user: vagrant
+  lineinfile:
+    path: $HOME/b2share/webui/src/data/server.js
+    line: "\t\tcommunities_hide_editmetadata: \"\","
+    insertafter: "terms_of_use_link: \"\","
+    state: present
+
+- name: Inserting 'communities_enable_archive' to 'b2share/webui/src/data/server.js' for archiving purposes
+  become_user: vagrant
+  lineinfile:
+    path: $HOME/b2share/webui/src/data/server.js
+    line: "\t\tcommunities_enable_archive: \"\","
+    insertafter: "terms_of_use_link: \"\","
+    state: present
 
 - name: Update
   become_user: vagrant

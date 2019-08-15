@@ -466,7 +466,7 @@ const Record = React.createClass({
                             <div>
                                 <Link to={`/records/${recordID}/abuse`} className="btn btn-default"
                                     style={{margin: '0 0.5em', float:'right', color: '#d43f3a'}}>Report Abuse</Link>
-                                { canEditRecord(record) ?
+                                { canEditRecord(record) && canCommunityEditRecord(record, serverCache.getInfo().get('communities_hide_editmetadata') ) ?
                                     <Link to={`/records/${recordID}/edit`} className="btn btn-warning" style={{margin: '0 0.5em'}}>
                                         Edit Metadata</Link>
                                     : false
@@ -495,6 +495,20 @@ function canEditRecord(record) {
         return true;
     }
     return false;
+}
+
+function canCommunityEditRecord(record, excludedCommunities) {
+    const com = serverCache.getCommunity(record.getIn(['metadata', 'community']));
+    if (excludedCommunities && com) {
+        const excludedCommunitiesArray = excludedCommunities.split(',');
+        const currentComName = com.get('name');
+        for (var excludedCommunity of excludedCommunitiesArray ) {
+            if (currentComName == excludedCommunity) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 function isRecordOwner(record) {
