@@ -6,9 +6,9 @@ export B2SHARE_SECRET_KEY='SECRET-KEY'
 
 export B2SHARE_JSONSCHEMAS_HOST=devb2share.dans.knaw.nl:5000
 
-export B2SHARE_POSTGRESQL_DBNAME='defaultuser'
-export B2SHARE_POSTGRESQL_USER='b2share'
-export B2SHARE_POSTGRESQL_PASSWORD='defaultpassword'
+export B2SHARE_POSTGRESQL_DBNAME=dbname
+export B2SHARE_POSTGRESQL_USER=user
+export B2SHARE_POSTGRESQL_PASSWORD=password
 
 export B2SHARE_DATADIR='/home/vagrant/b2share-data' 
 export B2SHARE_UI_PATH=$HOME/b2share/webui/app

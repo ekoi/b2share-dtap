@@ -46,9 +46,9 @@
     state: present
     block: |
       # Hide edit metadata button. Comma sparated communities list.
-      COMMUNITIES_HIDE_EDITMETADATA='DANS,EKOxxx'
+      COMMUNITIES_HIDE_EDITMETADATA='DANS'
       # Enable archive button. Comma sparated communities list.
-      COMMUNITIES_ENABLE_ARCHIVE='DANS,jppp'
+      COMMUNITIES_ENABLE_ARCHIVE='DANS'
 
 - name: Inserting 'COMMUNITIES_HIDE_EDITMETADATA' to 'b2share/b2share/modules/apiroot/views.py' for archiving purposes
   become_user: vagrant
