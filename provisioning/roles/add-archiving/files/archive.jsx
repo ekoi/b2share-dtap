@@ -1,6 +1,7 @@
 import React, { Component } from 'react/lib/ReactWithAddons';
 import { ajaxGet, ajaxPost } from '../data/ajax.js';
-import { Link } from 'react-router'
+import { Link } from 'react-router';
+import { serverCache } from '../data/server';
 
 
 const PT = React.PropTypes;
@@ -43,6 +44,7 @@ export const Archive = React.createClass({
     render() {
 		let {recordID, communityName, curVersion} = this.props;
 		const curVersionNum = curVersion.index + 1;
+        const commEnableArchive = serverCache.getInfo().get('communities_enable_archive');
 
 		bridgeUrl= baseUrl + '/api/archive/state?r=' + recordID +'&srcMetadataVersion=' + curVersionNum;
 
@@ -73,26 +75,40 @@ export const Archive = React.createClass({
 		const _refreshPage = () => {
 			window.location.reload();
 		};
-		if (communityName != 'DANS')
-			return false;
+		if (commEnableArchive	) {
+            const commEnableArchiveArr = commEnableArchive.split(',');
+            var archiveButtonEnable = false;
+            for (var commEnable of commEnableArchiveArr ) {
+                if (communityName == commEnable) {
+                    archiveButtonEnable = true;
+                    break;
+                }
+            }
+            if (!archiveButtonEnable)
+                return false;
+        }
 
-		if (this.state.archivingState == 0)
-			return false;
+		if (this.state.archivingState == 0) {
+            return (
+                    <p className="alert alert-warning" style={{color:'red', margin:'-1.5em'}}>
+                    The service is currently unavailable, please try again later.
+                    </p>
 
-		else if (this.state.archivingState == "Archive")	{
+            );
+
+        } else if (this.state.archivingState == "Archive")	{
             return (
                 <div style={style}>
                     <Link to={`/records/${recordID}`} onClick={doArchive} className="btn btn-warning" style={{margin: '0 0.5em'}}>Archive</Link>
                 </div>
             );
-            }
-            else if (this.state.archivingState == "Archiving in progress")	 {
+        } else if (this.state.archivingState == "Archiving in progress")	 {
             return (
                 <div style={style}>
                     <Link to={`/records/${recordID}`} onClick={_refreshPage} className="btn btn-warning" style={{margin: '0 0.5em'}}>Archiving in progress</Link>
                 </div>
             );
-            }
+        }
 
 		if (this.state.archivingState == "ARCHIVED")
             return (
