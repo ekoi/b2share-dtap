@@ -7,7 +7,7 @@
 The ... At [DANS](https://dans.knaw.nl), we will use the bridge to transfer datasets from [B2Share](https://b2share.nl) to our long-term archive called [EASY](https://easy.dans.knaw.nl/ui/home). The transfer is done by using the [SWORD](http://swordapp.org/) protocol (v2.0). 
 [DANS](https://dans.knaw.nl) 
 
-![Bridge Process](readme-imgs/bridge-codegen.png "Bridge Process")
+![Sequence Diagram: B2share - DAR](readme-imgs/seq-diagram.png "B2Share-DAR")
 
 In the sections below more details are provided about:
 
@@ -19,9 +19,12 @@ In the sections below more details are provided about:
 ## <a name="b2share-Bridge-DAR-architecture"></a>Architecture
 
 
-## <a name="b2share-setting"></a>Changes needed in the B2share code
+## <a name="b2share-code"></a>Changes needed in the B2Share code
 
-_This document describes how to set up and use development environment for B2Share._
+
+## <a name="b2share-setting"></a>B2Share Setting
+
+_This part describes how to set up and use development environment for B2Share._
 
 
 Requirements
