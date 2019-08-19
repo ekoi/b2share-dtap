@@ -44,16 +44,26 @@ VirtualBox              | 5.2.22
               cd b2share-dtap
  
 4. Edit the `provisioning/host_vars/devb2share.yml` file
-                
+              
+              #B2Share Configuration  
               b2access_consumer_key=REPLACE_WITH_YOUR_OWN_KEY
               b2access_secret_key=REPLACE_WITH_YOUR_OWN_SECRET
+              
+              #Bridge Configuration
               b2share_jsonschemas_host=your-chosen-domain-name:5000
               b2share_jsonschemas_port=bridge-url:port/api/v1
               bridge_ip_address=REPLACE_WITH_YOUR_BRIDGE_IP_ADDRESS
               bridge_port=REPLACE_WITH_YOUR_BRIDGE_PORT
               bridge_apikey=REPLACE_WITH_YOUR_BRIDGE_APIKEY
+              
+              #Digital Archive Repository Configuration
               bridge_dar_username=REPLACE_WITH_YOUR_DAR_USERNAME
               bridge_dar_password=REPLACE_WITH_YOUR_DAR_PASSWORD
+              
+              # Hide edit metadata button. Comma sparated communities list.
+              communities_hide_editmetadata='DANS'
+              # Enable archive button. Comma sparated communities list.
+              communities_enable_archive='DANS'
               
 5. Clone, install and follow instractions of [DANS Bridge](https://github.com/DANS-KNAW/dataverse-bridge-service)    
 
