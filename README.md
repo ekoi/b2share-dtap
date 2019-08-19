@@ -1,6 +1,6 @@
 # B2Share to Digital Archiving Repository using Bridge
 
-![B2Share-Bridge-DAR](readme-imgs/overview.png "B2share to DAR")
+![B2Share-Bridge-DAR](readme-imgs/overview1.png "B2share to DAR")
 
 ## Overview
 
