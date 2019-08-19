@@ -8,10 +8,10 @@ Group=vagrant
 Type=simple
 WorkingDirectory=/home/vagrant/.virtualenvs/b2share_dev-P3.5
 
-Environment="B2ACCESS_CONSUMER_KEY=REPLACE_WITH_YOUR_OWN_KEY"
-Environment="B2ACCESS_SECRET_KEY=REPLACE_WITH_YOUR_OWN_SECRET"
+Environment="B2ACCESS_CONSUMER_KEY={{ b2access_consumer_key }}"
+Environment="B2ACCESS_SECRET_KEY={{ b2access_secret_key }}"
 Environment="B2SHARE_SECRET_KEY=SECRET-KEY"
-Environment="B2SHARE_JSONSCHEMAS_HOST=devb2share.dans.knaw.nl:5000"
+Environment="B2SHARE_JSONSCHEMAS_HOST={{ b2share_jsonschemas_host }}:{{ b2share_jsonschemas_port }}"
 Environment="B2SHARE_POSTGRESQL_DBNAME=dbname"
 Environment="B2SHARE_POSTGRESQL_PASSWORD=user"
 Environment="B2SHARE_DATADIR=/home/vagrant/b2share-data"
@@ -27,10 +27,10 @@ Environment="B2SHARE_CELERY_BROKER_URL=amqp://user:pass@localhost:5672/"
 Environment="B2SHARE_CELERY_RESULT_BACKEND=redis://localhost:6379/2"
 Environment="B2SHARE_SEARCH_ELASTIC_HOSTS=localhost"
 
-Environment="BRIDGE_URL=http://10.0.2.2:8592/api/v1"
-Environment="BRIDGE_APIKEY=REPLACE_WITH_YOUR_BRIDGE_APIKEY"
-Environment="BRIDGE_DAR_USERNAME=REPLACE_WITH_YOUR_DAR_USERNAME"
-Environment="BRIDGE_DAR_PASSWORD=REPLACE_WITH_YOUR_DAR_PASSWORD"
+Environment="BRIDGE_URL={{ bridge_ip_address }}:{{ bridge_port }}/api/v1"
+Environment="BRIDGE_APIKEY={{ bridge_apikey }}"
+Environment="BRIDGE_DAR_USERNAME={{ bridge_dar_username }}"
+Environment="BRIDGE_DAR_PASSWORD={{ bridge_dar_password }}"
 
 
 ExecStart=/home/vagrant/.virtualenvs/b2share_dev-P3.5/bin/b2share run -h 0.0.0.0 -p 5000 --reload

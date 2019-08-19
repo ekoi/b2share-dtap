@@ -1,0 +1,9 @@
+b2access_consumer_key=REPLACE_WITH_YOUR_OWN_KEY
+b2access_secret_key=REPLACE_WITH_YOUR_OWN_SECRET
+b2share_jsonschemas_host=your-chosen-domain-name:5000
+b2share_jsonschemas_port=bridge-url:port/api/v1
+bridge_ip_address=REPLACE_WITH_YOUR_BRIDGE_IP_ADDRESS
+bridge_port=REPLACE_WITH_YOUR_BRIDGE_PORT
+bridge_apikey=REPLACE_WITH_YOUR_BRIDGE_APIKEY
+bridge_dar_username=REPLACE_WITH_YOUR_DAR_USERNAME
+bridge_dar_password=REPLACE_WITH_YOUR_DAR_PASSWORD

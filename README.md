@@ -10,7 +10,7 @@ It is assumed that you are working in a Mac OS X environment.
 
 * Brew, to install some of the other stuff: see [brew], if you haven't installed it yet.
 * [Git](https://github.com/join) (`brew install git`).
-* [Vagrant] (`brew cask install vagrant`)
+* [Vagrant](https://www.vagrantup.com/) (`brew cask install vagrant`)
 * [VirtualBox](https://www.virtualbox.org/wiki/Downloads): (Download link or `brew cask install virtualbox`.)
 * The vagrant-vbguest plugin for vagrant: (`vagrant plugin install vagrant-vbguest`).
 * Ansible (`brew install ansible` or `sudo pip install ansible==2.4.0.0`)
@@ -40,28 +40,17 @@ VirtualBox              | 5.2.22
    
               cd b2share-dtap
  
-4. Edit the `provisioning/roles/b2share-setup/files/b2share_devenvrc` file
+4. Edit the `provisioning/host_vars/devb2share.yml` file
                 
-              export B2ACCESS_CONSUMER_KEY='REPLACE_WITH_YOUR_OWN_KEY'
-              export B2ACCESS_SECRET_KEY='REPLACE_WITH_YOUR_OWN_SECRET'
-              export B2SHARE_SECRET_KEY='SECRET-KEY'
+              b2access_consumer_key=REPLACE_WITH_YOUR_OWN_KEY
+              b2access_secret_key=REPLACE_WITH_YOUR_OWN_SECRET
+              b2share_jsonschemas_host=your-chosen-domain-name:5000
+              b2share_jsonschemas_port=bridge-url:port/api/v1
+              bridge_ip_address=REPLACE_WITH_YOUR_BRIDGE_IP_ADDRESS
+              bridge_port=REPLACE_WITH_YOUR_BRIDGE_PORT
+              bridge_apikey=REPLACE_WITH_YOUR_BRIDGE_APIKEY
+              bridge_dar_username=REPLACE_WITH_YOUR_DAR_USERNAME
+              bridge_dar_password=REPLACE_WITH_YOUR_DAR_PASSWORD
               
-              export B2SHARE_JSONSCHEMAS_HOST=your-chosen-domain-name:5000   
-              
-              export BRIDGE_URL=bridge-url:port/api/v1
-              export BRIDGE_APIKEY=REPLACE_WITH_YOUR_BRIDGE_APIKEY
-              export BRIDGE_DAR_USERNAME=REPLACE_WITH_YOUR_DAR_USERNAME
-              export BRIDGE_DAR_PASSWORD=REPLACE_WITH_YOUR_DAR_PASSWORD
-              
-5. Edit the `provisioning/roles/b2share-setup/templates/b2share.service` file  
-
-              Environment="B2ACCESS_CONSUMER_KEY=REPLACE_WITH_YOUR_OWN_KEY"
-              Environment="B2ACCESS_SECRET_KEY=REPLACE_WITH_YOUR_OWN_SECRET"
-              Environment="B2SHARE_SECRET_KEY=SECRET-KEY"
-              
-              Environment="B2SHARE_JSONSCHEMAS_HOST=your-chosen-domain-name:5000"   
-              
-              Environment="BRIDGE_URL=bridge-url:port/api/v1"
-              Environment="BRIDGE_APIKEY=EPLACE_WITH_YOUR_BRIDGE_APIKEY"
-              Environment="BRIDGE_DAR_USERNAME=REPLACE_WITH_YOUR_DAR_USERNAME"
-              Environment="BRIDGE_DAR_PASSWORD=REPLACE_WITH_YOUR_DAR_PASSWORD"               	   
+5. Clone and install [DANS Bridge](https://github.com/DANS-KNAW/dataverse-bridge-service)    
+      	   

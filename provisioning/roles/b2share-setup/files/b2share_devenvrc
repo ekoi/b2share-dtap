@@ -1,10 +1,10 @@
 #!/bin/bash
 
-export B2ACCESS_CONSUMER_KEY='REPLACE_WITH_YOUR_OWN_KEY'
-export B2ACCESS_SECRET_KEY='REPLACE_WITH_YOUR_OWN_SECRET'
+export B2ACCESS_CONSUMER_KEY='{{ b2access_consumer_key }}'
+export B2ACCESS_SECRET_KEY='{{ b2access_secret_key }}'
 export B2SHARE_SECRET_KEY='SECRET-KEY'
 
-export B2SHARE_JSONSCHEMAS_HOST=devb2share.dans.knaw.nl:5000
+export B2SHARE_JSONSCHEMAS_HOST='{{ b2share_jsonschemas_host }}:{{ b2share_jsonschemas_port }}'
 
 export B2SHARE_POSTGRESQL_DBNAME=dbname
 export B2SHARE_POSTGRESQL_USER=user
@@ -33,7 +33,10 @@ export B2SHARE_CELERY_BROKER_URL="amqp://${B2SHARE_RABBITMQ_USER}:${B2SHARE_RABB
 export B2SHARE_CELERY_RESULT_BACKEND='redis://localhost:6379/2'
 export B2SHARE_SEARCH_ELASTIC_HOSTS='localhost'
 
-export BRIDGE_URL=http://10.0.2.2:8592/api/v1
-export BRIDGE_APIKEY=REPLACE_WITH_YOUR_BRIDGE_APIKEY
-export BRIDGE_DAR_USERNAME=REPLACE_WITH_YOUR_DAR_USERNAME
-export BRIDGE_DAR_PASSWORD=REPLACE_WITH_YOUR_DAR_PASSWORD
+export BRIDGE_URL=http:'{{ bridge_ip_address }}:{{ bridge_port }}'/api/v1
+export BRIDGE_APIKEY='{{ bridge_apikey }}'
+export BRIDGE_DAR_USERNAME='{{ bridge_dar_username }}'
+export BRIDGE_DAR_PASSWORD='{{ bridge_dar_password }}'
+
+export LC_ALL=en_US.utf8
+export LANG=en_US.utf8
