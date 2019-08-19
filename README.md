@@ -35,6 +35,9 @@ VirtualBox              | 5.2.22
    the following lines are present:
 
 	    192.168.33.11   devb2share.dans.knaw.nl
+	
+	The IP address on the left is from your `Vagrantfile`.
+	    
 
 3. Go to the `b2share-dtap` project directory:
    
@@ -52,5 +55,13 @@ VirtualBox              | 5.2.22
               bridge_dar_username=REPLACE_WITH_YOUR_DAR_USERNAME
               bridge_dar_password=REPLACE_WITH_YOUR_DAR_PASSWORD
               
-5. Clone and install [DANS Bridge](https://github.com/DANS-KNAW/dataverse-bridge-service)    
+5. Clone, install and follow instractions of [DANS Bridge](https://github.com/DANS-KNAW/dataverse-bridge-service)    
+
+6. To make a fresh start with the configured `devb2share.yml`:
+   
+   * `cd b2share-dtap` or wherever it is located on your mac
+   * `vagrant destroy`
+   * `vagrant up` this may take half an hour
+   
+ 
       	   
