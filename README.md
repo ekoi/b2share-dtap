@@ -1,4 +1,25 @@
-# b2share-dtap
+# B2Share to Digital Archiving Repository using Bridge
+
+![B2Share-Bridge-DAR](readme-imgs/overview.png "B2share to DAR")
+
+## Overview
+
+The ... At [DANS](https://dans.knaw.nl), we will use the bridge to transfer datasets from [B2Share](https://b2share.nl) to our long-term archive called [EASY](https://easy.dans.knaw.nl/ui/home). The transfer is done by using the [SWORD](http://swordapp.org/) protocol (v2.0). 
+[DANS](https://dans.knaw.nl) 
+
+![Bridge Process](readme-imgs/bridge-codegen.png "Bridge Process")
+
+In the sections below more details are provided about:
+
+-	[Architecture](#b2share-Bridge-DAR-architecture)
+-	[Changes needed in the B2share code](#b2share-code)
+-	[Setting up the B2Share](#b2share-setting)
+
+
+## <a name="b2share-Bridge-DAR-architecture"></a>Architecture
+
+
+## <a name="b2share-setting"></a>Changes needed in the B2share code
 
 _This document describes how to set up and use development environment for B2Share._
 
@@ -62,6 +83,7 @@ VirtualBox              | 5.2.22
               
               # Hide edit metadata button. Comma sparated communities list.
               communities_hide_editmetadata='DANS'
+              
               # Enable archive button. Comma sparated communities list.
               communities_enable_archive='DANS'
               
