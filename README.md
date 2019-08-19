@@ -3,10 +3,10 @@
 ![B2Share-Bridge-DAR](readme-imgs/overview1.png "B2share to DAR")
 
 ## Overview
-
-The ... At [DANS](https://dans.knaw.nl), we will use the bridge to transfer datasets from [B2Share](https://b2share.nl) to our long-term archive called [EASY](https://easy.dans.knaw.nl/ui/home). The transfer is done by using the [SWORD](http://swordapp.org/) protocol (v2.0). 
-[DANS](https://dans.knaw.nl) 
-
+At [DANS](https://dans.knaw.nl) we have developed a [bridge](https://github.com/DANS-KNAW/dataverse-bridge-service) to transfer datasets from a short-term repository to our long-term archive called [Datavault](https://easy.dans.knaw.nl/ui/home). This bridge implements the SWORD protocol (v2.0). The bridge communicates via API with the short-term repository. 
+Within [EOSChub](https://www.eosc-hub.eu/) we have developed a [B2SHARE module](#b2share-code) for communication between [B2SHARE](https://b2share.eudat.eu/) and the [Bridge](https://github.com/DANS-KNAW/dataverse-bridge-service). 
+The module is developed in a generic way; therefore it can be applied within any B2SHARE community by enabling the archiving function in the [B2SHARE settings](#b2share-setting). 
+ 
 In the sections below more details are provided about:
 
 -	[Architecture](#b2share-Bridge-DAR-architecture)
