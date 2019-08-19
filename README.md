@@ -10,13 +10,15 @@ The ... At [DANS](https://dans.knaw.nl), we will use the bridge to transfer data
 In the sections below more details are provided about:
 
 -	[Architecture](#b2share-Bridge-DAR-architecture)
+-	[Sequence Diagram](#b2share-Bridge-DAR-sequence-diagram)
 -	[Changes needed in the B2share code](#b2share-code)
 -	[Setting up the B2Share](#b2share-setting)
 
 
 ## <a name="b2share-Bridge-DAR-architecture"></a>Architecture
+![Architecture: B2share - DAR](readme-imgs/architecture.png "B2Share-DAR")
 
-### Sequence Diagram
+## <a name="b2share-Bridge-DAR-sequence-diagram"></a>Sequence Diagram
 ![Sequence Diagram: B2share - DAR](readme-imgs/seq-diagram.png "B2Share-DAR")
 
 
