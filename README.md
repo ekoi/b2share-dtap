@@ -23,10 +23,22 @@ In the sections below more details are provided about:
 
 
 ## <a name="b2share-code"></a>Changes needed in the B2Share code
+
+A new module - called [apiarchive](https://github.com/ekoi/b2share-dtap/tree/master/provisioning/roles/add-archive-module/files) - is developed. 
+This endpoint API module handles the communication between B2Share and Bridge. 
+
+A new javascript file ([archive.jsx](https://github.com/ekoi/b2share-dtap/blob/master/provisioning/roles/add-archiving/files/archive.jsx)) is created to manage archive and archiving progress buttons.  
 ![Archive button](readme-imgs/archive-button.png "Archive Button")
 
 ![Archive in progress button](readme-imgs/archiving-progress.png "Archiving in Progress Button")
 
+The [archive.jsx](https://github.com/ekoi/b2share-dtap/blob/master/provisioning/roles/add-archiving/files/archive.jsx) also manage warning and DANS doi display.
+
+![Archive button](readme-imgs/dans-doi.png "DANS DOI")
+
+![Archive button](readme-imgs/service-unavailable.png "Warning: Service unavailable")
+
+Since an archived dataset at DANS cannot be changed, the Edit Metadata button is hided. However for display/hide of Edit Metadata button is [configurabled](#b2share-setting)
 
 ## <a name="b2share-setting"></a>B2Share Setting
 
