@@ -1,6 +1,6 @@
 # B2Share to Digital Archiving Repository using Bridge
 
-![B2Share-Bridge-DAR](readme-imgs/overview2.png "B2share to DAR")
+![B2Share-Bridge-DAR](readme-imgs/overview1.png "B2share to DAR")
 
 ## Overview
 At [DANS](https://dans.knaw.nl) we have developed a [bridge](https://github.com/DANS-KNAW/dataverse-bridge-service) to transfer datasets from a short-term repository to our long-term archive called [Datavault](https://easy.dans.knaw.nl/ui/home). This bridge implements the SWORD protocol (v2.0). The bridge communicates via API with the short-term repository. 
@@ -38,7 +38,7 @@ The [archive.jsx](https://github.com/ekoi/b2share-dtap/blob/master/provisioning/
 
 ![Archive button](readme-imgs/service-unavailable.png "Warning: Service unavailable")
 
-Since an archived dataset at DANS cannot be changed, the Edit Metadata button is hided. However for display/hide of Edit Metadata button is [configurabled](#b2share-setting-buttons)
+Since an archived dataset at DANS cannot be changed, the Edit Metadata button is hided. However to display/hide the Edit Metadata button is [configurable](#b2share-setting-buttons)
 
 ## <a name="b2share-setting"></a>B2Share Setting
 
