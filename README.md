@@ -27,7 +27,7 @@ In the sections below more details are provided about:
 A new module - called [apiarchive](https://github.com/ekoi/b2share-dtap/tree/master/provisioning/roles/add-archive-module/files) - is developed. 
 This endpoint API module handles the communication between B2Share and Bridge. 
 
-A new javascript file ([archive.jsx](https://github.com/ekoi/b2share-dtap/blob/master/provisioning/roles/add-archiving/files/archive.jsx)) is created to manage archive and archiving progress buttons.  
+A new javascript file ([archive.jsx](https://github.com/ekoi/b2share-dtap/blob/master/provisioning/roles/add-archiving/files/archive.jsx)) is created to manage archive and archiving progress buttons. This functionality can be enabled/disabled through [settings](#b2share-setting-buttons).   
 ![Archive button](readme-imgs/archive-button.png "Archive Button")
 
 ![Archive in progress button](readme-imgs/archiving-progress.png "Archiving in Progress Button")
@@ -38,7 +38,7 @@ The [archive.jsx](https://github.com/ekoi/b2share-dtap/blob/master/provisioning/
 
 ![Archive button](readme-imgs/service-unavailable.png "Warning: Service unavailable")
 
-Since an archived dataset at DANS cannot be changed, the Edit Metadata button is hided. However for display/hide of Edit Metadata button is [configurabled](#b2share-setting)
+Since an archived dataset at DANS cannot be changed, the Edit Metadata button is hided. However for display/hide of Edit Metadata button is [configurabled](#b2share-setting-buttons)
 
 ## <a name="b2share-setting"></a>B2Share Setting
 
@@ -85,7 +85,7 @@ VirtualBox              | 5.2.22
    
               cd b2share-dtap
  
-4. Edit the `provisioning/host_vars/devb2share.yml` file
+4. Edit the <a name="b2share-setting-buttons"></a>`provisioning/host_vars/devb2share.yml` file
               
               #B2Share Configuration  
               b2access_consumer_key=REPLACE_WITH_YOUR_OWN_KEY
