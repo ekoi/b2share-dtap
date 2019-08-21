@@ -28,18 +28,38 @@ A new module - called [apiarchive](https://github.com/ekoi/b2share-dtap/tree/mas
 This endpoint API module handles the communication between B2Share and Bridge. 
 
 A new javascript file ([archive.jsx](https://github.com/ekoi/b2share-dtap/blob/master/provisioning/roles/add-archiving/files/archive.jsx)) is created to manage archive and archiving progress buttons. This functionality can be enabled/disabled through [settings](#b2share-setting-buttons).   
+Here are view examples. 
+The following figure shows the archive button enable. In this example the archive button is enable for "DANS" community. 
+              
+             
+              
+              # Enable archive button. Comma sparated communities list.
+              communities_enable_archive='DANS'
+              
+
 ![Archive button](readme-imgs/archive-button.png "Archive Button")
+
+When the archive button is pressed, the archive process is started and the status will be shown in the button.
+Pressing the Archive in progress button will refresh the  process status.
 
 ![Archive in progress button](readme-imgs/archiving-progress.png "Archiving in Progress Button")
 
 The [archive.jsx](https://github.com/ekoi/b2share-dtap/blob/master/provisioning/roles/add-archiving/files/archive.jsx) also manage warning and DANS doi display.
 
+When the archiving process is finished. The DANS DOI will be shown as the following figure:
+
 ![Archive button](readme-imgs/dans-doi.png "DANS DOI")
+
+The following figure shows possible error messages when error occurs.
 
 ![Archive button](readme-imgs/service-unavailable.png "Warning: Service unavailable")
 
-Since an archived dataset at DANS cannot be changed, the Edit Metadata button is hided. However to display/hide the Edit Metadata button is [configurable](#b2share-setting-buttons)
-
+Since an archived dataset at DANS cannot be changed, the Edit Metadata button is hided. 
+However to display/hide the Edit Metadata button is [configurable](#b2share-setting-buttons)
+           
+              # Hide edit metadata button. Comma sparated communities list.
+              communities_hide_editmetadata='DANS'
+              
 ## <a name="b2share-setting"></a>B2Share Setting
 
 _This part describes how to set up and use development environment for B2Share._
