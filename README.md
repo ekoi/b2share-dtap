@@ -19,7 +19,7 @@ In the sections below more details are provided about:
 ![Architecture: B2share - DAR](readme-imgs/overview2.png "B2Share-DAR")
 
 ## <a name="b2share-Bridge-DAR-sequence-diagram"></a>Sequence Diagram
-![Sequence Diagram: B2share - DAR](readme-imgs/seq-diagram2.png "B2Share-DAR")
+![Sequence Diagram: B2share - DAR](readme-imgs/seq-diagram-2.png "B2Share-DAR")
 
 
 ## <a name="b2share-code"></a>Changes needed in the B2Share code
