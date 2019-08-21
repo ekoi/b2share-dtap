@@ -16,7 +16,14 @@ In the sections below more details are provided about:
 
 
 ## <a name="b2share-Bridge-DAR-architecture"></a>Architecture
-![Architecture: B2share - DAR](readme-imgs/overview2.png "B2Share-DAR")
+
+### Detail View B2Share WEBUI - Archive Module 
+![Architecture: webui - archive module](readme-imgs/detail_arch.png "Details architecture")
+
+### Detail View Bridge 
+![Detail View B2share - DAR Architecture ](readme-imgs/overview2.png "B2Share-DAR")
+
+
 
 ## <a name="b2share-Bridge-DAR-sequence-diagram"></a>Sequence Diagram
 ![Sequence Diagram: B2share - DAR](readme-imgs/seq-diagram-2.png "B2Share-DAR")
