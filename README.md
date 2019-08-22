@@ -86,7 +86,7 @@ The following figures show the archived dataset on Datavault.
  
  
 ### Files archived dataset. 
-The original json metadata is added under Metadata export from B2Share folder. 
+The original json metadata is added under **Metadata export from B2Share** folder. 
 ![EASY Home](readme-imgs/easy-files.png  "EASY Home")              
              
 ## <a name="b2share-setting"></a>B2Share Setting
