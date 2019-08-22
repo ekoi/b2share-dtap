@@ -72,19 +72,19 @@ However to display/hide the Edit Metadata button is [configurable](#b2share-sett
 
 The following figures show the archived dataset on Datavault.
 
-###The home page of EASY.
+### The home page of EASY.
 ![EASY Home](readme-imgs/easy-home.png  "EASY Home") 
 
 
-###Overview archived dataset.
+### Overview archived dataset.
 ![EASY Home](readme-imgs/easy-overview.png  "EASY Home") 
 
 
-###Description archived dataset.
+### Description archived dataset.
 ![EASY Home](readme-imgs/easy-description.png  "EASY Home") 
  
  
-###Files archived dataset. 
+### Files archived dataset. 
 The original json metadata is added under Metadata export from B2Share folder. 
 ![EASY Home](readme-imgs/easy-files.png  "EASY Home")              
              
