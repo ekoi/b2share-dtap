@@ -76,17 +76,14 @@ The following figures show the archived dataset on Datavault.
 ###The home page of EASY.
 ![EASY Home](readme-imgs/easy-home.png  "EASY Home") 
 
-<br/>
 
 ###Overview archived dataset.
 ![EASY Home](readme-imgs/easy-overview.png  "EASY Home") 
 
-<br/>
 
 ###Description archived dataset.
 ![EASY Home](readme-imgs/easy-description.png  "EASY Home") 
  
- <br/>
  
 ###Files archived dataset. 
 The original json metadata is added under Metadata export from B2Share folder. 
