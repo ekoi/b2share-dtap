@@ -157,7 +157,7 @@ VirtualBox              | 5.2.22
               # Enable archive button. Comma sparated communities list.
               communities_enable_archive='DANS'
               
-5. Clone, install and follow instractions of [DANS Bridge](https://github.com/DANS-KNAW/dataverse-bridge-service)    
+5. Clone, install and follow instructions of [DANS Bridge](https://github.com/DANS-KNAW/dataverse-bridge-service)    
 
 6. To make a fresh start with the configured `devb2share.yml`:
    
