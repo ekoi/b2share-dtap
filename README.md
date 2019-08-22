@@ -11,7 +11,8 @@ In the sections below more details are provided about:
 
 -	[Architecture](#b2share-Bridge-DAR-architecture)
 -	[Sequence Diagram](#b2share-Bridge-DAR-sequence-diagram)
--	[Changes needed in the B2share code](#b2share-code)
+-	[Changes needed in the B2share code and configuration examples](#b2share-code)
+-   [Archived dataset](#archived-dataset)
 -	[Setting up the B2Share](#b2share-setting)
 
 
@@ -69,7 +70,7 @@ However to display/hide the Edit Metadata button is [configurable](#b2share-sett
  
 ![Hide Edit Metadata](readme-imgs/dans-doi-no-editmetadata.png  "DANS DOI No Edit metadata") 
 
-
+## <a name="archived-dataset"></a>Archived dataset
 The following figures show the archived dataset on Datavault.
 
 ### The home page of EASY.
