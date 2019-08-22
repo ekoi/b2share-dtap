@@ -69,8 +69,7 @@ However to display/hide the Edit Metadata button is [configurable](#b2share-sett
  
 ![Hide Edit Metadata](readme-imgs/dans-doi-no-editmetadata.png  "DANS DOI No Edit metadata") 
 
-<br/>
-<br/>
+
 The following figures show the archived dataset on Datavault.
 
 ###The home page of EASY.
