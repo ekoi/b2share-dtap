@@ -20,7 +20,7 @@ In the sections below more details are provided about:
 ### Detail View B2Share WEBUI - Archive Module 
 ![Architecture: webui - archive module](readme-imgs/detail_arch.png "Details architecture")
 
-### Detail View Bridge 
+### Detail View B2Share - Bridge - Datavault
 ![Detail View B2share - DAR Architecture ](readme-imgs/overview2.png "B2Share-DAR")
 
 
@@ -55,18 +55,34 @@ The [archive.jsx](https://github.com/ekoi/b2share-dtap/blob/master/provisioning/
 
 When the archiving process is finished. The DANS DOI will be shown as the following figure:
 
-![Archive button](readme-imgs/dans-doi.png "DANS DOI")
+![DANS DOI](readme-imgs/dans-doi.png "DANS DOI")
 
 The following figure shows possible error messages when error occurs.
 
-![Archive button](readme-imgs/service-unavailable.png "Warning: Service unavailable")
+![Service Unable](readme-imgs/service-unavailable.png "Warning: Service unavailable")
 
 Since an archived dataset at DANS cannot be changed, the Edit Metadata button is hided. 
 However to display/hide the Edit Metadata button is [configurable](#b2share-setting-buttons)
            
               # Hide edit metadata button. Comma sparated communities list.
               communities_hide_editmetadata='DANS'
-              
+ 
+![Hide Edit Metadata](readme-imgs/dans-doi-no-editmetadata.png  "DANS DOI No Edit metadata") 
+
+The following figures shows the archived dataset on Datavoult.
+
+The home page of EASY.
+![EASY Home](readme-imgs/easy-home.png  "EASY Home") 
+
+Overview archived dataset.
+![EASY Home](readme-imgs/easy-overview.png  "EASY Home") 
+
+Description archived dataset.
+![EASY Home](readme-imgs/easy-description.png  "EASY Home") 
+ 
+Files archived dataset. The original json metadata is added under Metadata export from B2Share. 
+![EASY Home](readme-imgs/easy-files.png  "EASY Home")              
+             
 ## <a name="b2share-setting"></a>B2Share Setting
 
 _This part describes how to set up and use development environment for B2Share._
